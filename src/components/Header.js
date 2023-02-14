@@ -6,7 +6,7 @@ function Header() {
       <div id='logo'>
         <img src={logo} className='App-logo' alt='logo' />
       </div>
-      <p>Drum Machine Project</p>
+      <p id='title'>Drum Machine Project</p>
     </header>
   );
 }
