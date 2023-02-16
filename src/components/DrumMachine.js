@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import heater1 from './sounds/Heater-1.mp3';
 import heater2 from './sounds/Heater-2.mp3';
 import heater3 from './sounds/Heater-3.mp3';
@@ -68,6 +70,8 @@ function DrumMachine() {
     },
   ];
 
+  const [volume, setVolume] = useState(1);
+
   const play = (key, id) => {
     const audio = document.getElementById(key);
     const display = document.getElementById('display');
@@ -76,11 +80,38 @@ function DrumMachine() {
     display.textContent = id;
   };
 
+  const handleVolumeChange = (e) => {
+    setVolume(e.target.value);
+  };
+
+  const setKeyVolume = () => {
+    const audios = sounds.map((sound) => document.getElementById(sound.key));
+    audios.forEach((audio) => {
+      if (audio) {
+        audio.volume = volume;
+      }
+    });
+  };
+
   return (
     <div id='drum-machine'>
+      {setKeyVolume()}
       <Keyboard sounds={sounds} play={play} />
       <div id='controls-container'>
-        <div id='display'></div>
+        <div id='volume-display'>Volume: {Math.round(volume * 100)}%</div>
+        <div id='volume-input'>
+          <input
+            max='1'
+            min='0'
+            step='0.01'
+            type='range'
+            value={volume}
+            onChange={handleVolumeChange}
+          />
+        </div>
+        <div id='display-wrapper'>
+          <div id='display'></div>
+        </div>
       </div>
     </div>
   );
